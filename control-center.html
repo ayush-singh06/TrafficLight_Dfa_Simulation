@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Traffic Control System - DFA Simulation</title>
+    <link rel="stylesheet" href="control-center.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+      <div class="modal-content">
+        <h2>Admin Access Required</h2>
+        <p>Enter PIN to access the Control Center</p>
+        <input
+          type="password"
+          id="pin-input"
+          placeholder="Enter PIN (1234)"
+          maxlength="4"
+        />
+        <button id="login-btn">Access Control Center</button>
+        <div id="login-error" class="error-message"></div>
+      </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="hidden">
+      <header>
+        <h1><i class="fas fa-microchip"></i> Smart Traffic Control System</h1>
+        <h2>DFA-Based State Machine Simulation</h2>
+        <button id="logout-btn" class="logout-btn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </header>
+
+      <main>
+        <!-- Section A: The Visualizer (Public View) -->
+        <section class="visualizer-section">
+          <div class="traffic-light-container">
+            <h3>Intersection Status</h3>
+            <div class="intersection-view">
+              <div class="road north-south">
+                <div class="light-group">
+                  <h4>North-South</h4>
+                  <div class="traffic-light-box">
+                    <div class="light red" id="ns-red"></div>
+                    <div class="light yellow" id="ns-yellow"></div>
+                    <div class="light green" id="ns-green"></div>
+                  </div>
+                  <div class="status-text" id="ns-status">STOP</div>
+                </div>
+              </div>
+
+              <div class="road east-west">
+                <div class="light-group">
+                  <h4>East-West</h4>
+                  <div class="traffic-light-box">
+                    <div class="light red" id="ew-red"></div>
+                    <div class="light yellow" id="ew-yellow"></div>
+                    <div class="light green" id="ew-green"></div>
+                  </div>
+                  <div class="status-text" id="ew-status">STOP</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dfa-visualization">
+            <h3>Live DFA State Diagram</h3>
+            <canvas id="dfa-canvas" width="500" height="400"></canvas>
+            <div class="current-tuple">
+              <h4>Current State Tuple</h4>
+              <div id="tuple-display">
+                Current State: q0 (NS_GREEN_EW_RED) | Input: Timer_Expired |
+                Next State: q1 (NS_YELLOW_EW_RED)
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section B: Admin Dashboard (Control Panel) -->
+        <section class="admin-dashboard">
+          <h3><i class="fas fa-cogs"></i> Control Panel</h3>
+
+          <div class="dashboard-grid">
+            <!-- Configuration Form -->
+            <div class="dashboard-card">
+              <h4><i class="fas fa-sliders-h"></i> Timing Configuration</h4>
+              <form id="config-form">
+                <div class="form-group">
+                  <label for="ns-green-time">NS Green Duration (sec):</label>
+                  <input
+                    type="number"
+                    id="ns-green-time"
+                    min="5"
+                    max="60"
+                    value="15"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="ns-yellow-time">NS Yellow Duration (sec):</label>
+                  <input
+                    type="number"
+                    id="ns-yellow-time"
+                    min="2"
+                    max="10"
+                    value="3"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="ew-green-time">EW Green Duration (sec):</label>
+                  <input
+                    type="number"
+                    id="ew-green-time"
+                    min="5"
+                    max="60"
+                    value="15"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="ew-yellow-time">EW Yellow Duration (sec):</label>
+                  <input
+                    type="number"
+                    id="ew-yellow-time"
+                    min="2"
+                    max="10"
+                    value="3"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="pedestrian-time"
+                    >Pedestrian Duration (sec):</label
+                  >
+                  <input
+                    type="number"
+                    id="pedestrian-time"
+                    min="5"
+                    max="30"
+                    value="10"
+                  />
+                </div>
+                <button type="submit" class="save-btn">
+                  <i class="fas fa-save"></i> Save Settings
+                </button>
+              </form>
+            </div>
+
+            <!-- Manual Controls -->
+            <div class="dashboard-card">
+              <h4><i class="fas fa-gamepad"></i> Manual Controls</h4>
+              <div class="control-buttons">
+                <button id="force-red-btn" class="control-btn danger">
+                  <i class="fas fa-stop"></i> Force Red
+                </button>
+                <button id="force-green-btn" class="control-btn success">
+                  <i class="fas fa-play"></i> Force Green
+                </button>
+                <button id="emergency-btn" class="control-btn warning">
+                  <i class="fas fa-ambulance"></i> Emergency Mode
+                </button>
+                <button id="pedestrian-btn" class="control-btn info">
+                  <i class="fas fa-walking"></i> Pedestrian Request
+                </button>
+              </div>
+            </div>
+
+            <!-- Simulation Controls -->
+            <div class="dashboard-card">
+              <h4><i class="fas fa-play-circle"></i> Simulation Controls</h4>
+              <div class="control-buttons">
+                <button id="play-btn" class="control-btn success">
+                  <i class="fas fa-play"></i> Play
+                </button>
+                <button id="pause-btn" class="control-btn warning">
+                  <i class="fas fa-pause"></i> Pause
+                </button>
+                <button id="reset-btn" class="control-btn danger">
+                  <i class="fas fa-redo"></i> Reset
+                </button>
+              </div>
+              <div class="speed-control">
+                <label for="speed-slider">Speed:</label>
+                <input
+                  type="range"
+                  id="speed-slider"
+                  min="0.5"
+                  max="5"
+                  step="0.5"
+                  value="1"
+                />
+                <span id="speed-value">1x</span>
+              </div>
+            </div>
+
+            <!-- Analytics & Logging -->
+            <div class="dashboard-card">
+              <h4><i class="fas fa-chart-bar"></i> Analytics & Logs</h4>
+              <div class="analytics-container">
+                <div class="time-stats">
+                  <h5>Time Distribution</h5>
+                  <div class="progress-container">
+                    <div class="progress-label">Red</div>
+                    <div class="progress-bar">
+                      <div
+                        id="red-progress"
+                        class="progress-fill"
+                        style="width: 40%"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="progress-container">
+                    <div class="progress-label">Green</div>
+                    <div class="progress-bar">
+                      <div
+                        id="green-progress"
+                        class="progress-fill"
+                        style="width: 40%"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="progress-container">
+                    <div class="progress-label">Yellow</div>
+                    <div class="progress-bar">
+                      <div
+                        id="yellow-progress"
+                        class="progress-fill"
+                        style="width: 20%"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="log-terminal">
+                  <h5>Event Log Terminal</h5>
+                  <div id="log-output" class="log-content"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <p>
+          Smart Traffic Control System v1.0 | DFA State Machine Implementation
+        </p>
+      </footer>
+    </div>
+
+    <script src="control-center.js"></script>
+  </body>
+</html>

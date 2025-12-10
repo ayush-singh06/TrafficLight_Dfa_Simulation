@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Traffic Control System using DFA</title>
+    <link rel="stylesheet" href="workflow.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="back-button">
+        <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
+      </div>
+      <h1>Traffic Control System using Deterministic Finite Automata (DFA)</h1>
+      <p class="subtitle">
+        A state-machine approach to intelligent traffic light management
+      </p>
+    </header>
+
+    <main>
+      <div class="workflow-container">
+        <!-- Workflow Step 1 -->
+        <div class="workflow-item" onclick="navigateTo('input')">
+          <div class="icon-box">
+            <i class="fas fa-keyboard"></i>
+          </div>
+          <h3>User Input / Timers</h3>
+          <p>
+            System receives timing inputs and external triggers for state
+            transitions
+          </p>
+          <div class="tooltip">Click to view input processing</div>
+        </div>
+
+        <!-- Arrow -->
+        <div class="arrow">
+          <i class="fas fa-arrow-right"></i>
+        </div>
+
+        <!-- Workflow Step 2 -->
+        <div class="workflow-item" onclick="navigateTo('dfa')">
+          <div class="icon-box">
+            <i class="fas fa-robot"></i>
+          </div>
+          <h3>DFA State Machine</h3>
+          <p>
+            Core deterministic finite automata logic governing traffic states
+          </p>
+          <div class="tooltip">Click to explore DFA implementation</div>
+        </div>
+
+        <!-- Arrow -->
+        <div class="arrow">
+          <i class="fas fa-arrow-right"></i>
+        </div>
+
+        <!-- Workflow Step 3 -->
+        <div class="workflow-item" onclick="navigateTo('validator')">
+          <div class="icon-box">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h3>Transition Validator</h3>
+          <p>Validates legal state transitions and prevents invalid moves</p>
+          <div class="tooltip">Click to see validation logic</div>
+        </div>
+
+        <!-- Arrow -->
+        <div class="arrow">
+          <i class="fas fa-arrow-right"></i>
+        </div>
+
+        <!-- Workflow Step 4 -->
+        <div class="workflow-item" onclick="navigateTo('ui')">
+          <div class="icon-box">
+            <i class="fas fa-tv"></i>
+          </div>
+          <h3>Update UI</h3>
+          <p>Reflects current DFA state in visual traffic light display</p>
+          <div class="tooltip">Click to view UI updates</div>
+        </div>
+
+        <!-- Arrow -->
+        <div class="arrow">
+          <i class="fas fa-arrow-right"></i>
+        </div>
+
+        <!-- Workflow Step 5 -->
+        <div class="workflow-item" onclick="navigateTo('simulation')">
+          <div class="icon-box">
+            <i class="fas fa-car"></i>
+          </div>
+          <h3>Traffic Light Simulation</h3>
+          <p>Real-time visualization of traffic light states and transitions</p>
+          <div class="tooltip">Click to run simulation</div>
+        </div>
+      </div>
+    </main>
+
+    <script src="workflow.js"></script>
+  </body>
+</html>

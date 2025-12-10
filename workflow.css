@@ -1,0 +1,237 @@
+/* Dark mode with neon traffic theme */
+:root {
+    --primary-dark: #121212;
+    --secondary-dark: #1e1e1e;
+    --accent-neon-blue: #00eeff;
+    --accent-neon-green: #00ff9d;
+    --accent-neon-purple: #bd00ff;
+    --accent-neon-red: #ff0055;
+    --text-light: #ffffff;
+    --text-gray: #b0b0b0;
+    --transition-speed: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--primary-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 20px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.back-button a {
+    color: var(--accent-neon-blue);
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border-radius: 30px;
+    transition: all var(--transition-speed);
+    border: 1px solid transparent;
+}
+
+.back-button a:hover {
+    background: rgba(0, 238, 255, 0.1);
+    border: 1px solid var(--accent-neon-blue);
+    box-shadow: 0 0 15px rgba(0, 238, 255, 0.3);
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    background: linear-gradient(90deg, var(--accent-neon-blue), var(--accent-neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(0, 238, 255, 0.2);
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-gray);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.workflow-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.workflow-item {
+    background: var(--secondary-dark);
+    border-radius: 15px;
+    padding: 30px 25px;
+    width: 220px;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.workflow-item:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 0 25px rgba(0, 238, 255, 0.4),
+                0 0 40px rgba(189, 0, 255, 0.3);
+    border: 1px solid var(--accent-neon-blue);
+}
+
+.icon-box {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    font-size: 2.5rem;
+    transition: all var(--transition-speed);
+}
+
+.workflow-item:hover .icon-box {
+    transform: translateY(-5px);
+    background: rgba(0, 238, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 238, 255, 0.3);
+    color: var(--accent-neon-blue);
+}
+
+.workflow-item h3 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: var(--accent-neon-green);
+}
+
+.workflow-item p {
+    font-size: 0.95rem;
+    color: var(--text-gray);
+    margin-bottom: 15px;
+    min-height: 60px;
+}
+
+.tooltip {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--accent-neon-blue);
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity var(--transition-speed);
+    pointer-events: none;
+    border: 1px solid var(--accent-neon-blue);
+}
+
+.workflow-item:hover .tooltip {
+    opacity: 1;
+}
+
+.arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--accent-neon-purple);
+    text-shadow: 0 0 10px rgba(189, 0, 255, 0.5);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    .workflow-container {
+        flex-direction: column;
+    }
+    
+    .arrow {
+        transform: rotate(90deg);
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .workflow-item {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .back-button {
+        position: static;
+        margin-bottom: 20px;
+    }
+    
+    .back-button a {
+        display: inline-flex;
+        width: fit-content;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 1.7rem;
+    }
+    
+    .workflow-item {
+        padding: 20px 15px;
+    }
+    
+    .icon-box {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+}

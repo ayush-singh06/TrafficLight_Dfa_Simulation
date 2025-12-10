@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DFA Implementation - Traffic Control System</title>
+    <link rel="stylesheet" href="workflow.css" />
+    <link rel="stylesheet" href="dfa.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="back-button">
+        <a href="workflow.html"
+          ><i class="fas fa-arrow-left"></i> Back to Workflow</a
+        >
+      </div>
+      <h1>Deterministic Finite Automata in Traffic Control</h1>
+      <p class="subtitle">
+        Understanding how DFA governs traffic light state transitions
+      </p>
+    </header>
+
+    <main>
+      <section class="dfa-explanation">
+        <div class="concept-box">
+          <h2>What is a Deterministic Finite Automaton (DFA)?</h2>
+          <p>
+            A DFA is a mathematical model of computation that represents a
+            system with a finite number of states. In traffic control systems,
+            each state corresponds to a specific configuration of traffic
+            lights.
+          </p>
+
+          <h3>Key Properties:</h3>
+          <ul>
+            <li>
+              <strong>Finite States:</strong> A limited number of traffic light
+              configurations
+            </li>
+            <li>
+              <strong>Deterministic:</strong> From each state, only one
+              transition is possible for each input
+            </li>
+            <li>
+              <strong>Transitions:</strong> Defined rules for moving between
+              states based on timers
+            </li>
+            <li>
+              <strong>Accept States:</strong> Valid traffic light configurations
+            </li>
+          </ul>
+        </div>
+
+        <div class="concept-box">
+          <h2>How DFA Works in Traffic Lights</h2>
+          <p>
+            In our traffic control system, the DFA ensures that traffic lights
+            follow a predetermined sequence that maximizes safety and
+            efficiency. Each state transition is triggered by a timer
+            expiration, ensuring predictable behavior.
+          </p>
+
+          <h3>State Transition Process:</h3>
+          <ol>
+            <li>System enters a state (e.g., North-South Green)</li>
+            <li>Timer starts for that state duration</li>
+            <li>
+              Upon timer expiration, transition to next valid state occurs
+            </li>
+            <li>New state activates appropriate traffic lights</li>
+            <li>Process repeats indefinitely</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="dfa-states-section">
+        <h2>DFA States Visualization</h2>
+        <div class="states-container">
+          <div class="state-box" id="red-state">
+            <div class="state-icon">
+              <i class="fas fa-stop-circle"></i>
+            </div>
+            <h3>RED State</h3>
+            <p>Vehicles must stop. Pedestrians may cross.</p>
+            <div class="tooltip">
+              Duration: Variable based on pedestrian crossing
+            </div>
+          </div>
+
+          <div class="arrow-separator">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+
+          <div class="state-box" id="green-state">
+            <div class="state-icon">
+              <i class="fas fa-play-circle"></i>
+            </div>
+            <h3>GREEN State</h3>
+            <p>Vehicles may proceed. Pedestrians must wait.</p>
+            <div class="tooltip">
+              Duration: Configurable (typically 30-90 seconds)
+            </div>
+          </div>
+
+          <div class="arrow-separator">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+
+          <div class="state-box" id="yellow-state">
+            <div class="state-icon">
+              <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <h3>YELLOW State</h3>
+            <p>Vehicles should prepare to stop. Clear intersection.</p>
+            <div class="tooltip">Duration: Typically 3-5 seconds</div>
+          </div>
+
+          <div class="arrow-separator return-arrow">
+            <i class="fas fa-arrow-down"></i>
+            <i class="fas fa-arrow-left"></i>
+          </div>
+        </div>
+
+        <div class="state-cycle-info">
+          <p>
+            <i class="fas fa-sync-alt"></i> States cycle continuously in a
+            deterministic pattern
+          </p>
+        </div>
+      </section>
+
+      <section class="technical-details">
+        <h2>Technical Implementation</h2>
+        <div class="code-example">
+          <pre><code>// DFA State Definition
+enum TrafficState {
+    RED_STATE,
+    GREEN_STATE,
+    YELLOW_STATE
+};
+
+// Transition Function
+TrafficState getNextState(TrafficState currentState) {
+    switch(currentState) {
+        case RED_STATE:
+            return GREEN_STATE;
+        case GREEN_STATE:
+            return YELLOW_STATE;
+        case YELLOW_STATE:
+            return RED_STATE;
+        default:
+            return RED_STATE; // Error recovery
+    }
+}</code></pre>
+        </div>
+        <p>
+          This simplified representation shows how each state deterministically
+          leads to the next, forming a cycle that ensures traffic flows smoothly
+          and predictably.
+        </p>
+      </section>
+    </main>
+
+    <script src="dfa.js"></script>
+  </body>
+</html>

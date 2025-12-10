@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Traffic Light FSM Simulation</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Blurry deadlock background container -->
+    <div class="background-overlay"></div>
+
+    <div class="content-wrapper">
+      <div style="text-align: center; margin-bottom: 20px">
+        <h1>Traffic Light FSM Simulation</h1>
+        <div style="margin: 20px 0">
+          <a
+            href="workflow.html"
+            style="
+              display: inline-block;
+              margin: 0 10px;
+              padding: 10px 20px;
+              background: #007bff;
+              color: white;
+              text-decoration: none;
+              border-radius: 5px;
+              position: relative;
+              z-index: 2;
+            "
+            >View Workflow</a
+          >
+          <a
+            href="dfa.html"
+            style="
+              display: inline-block;
+              margin: 0 10px;
+              padding: 10px 20px;
+              background: #28a745;
+              color: white;
+              text-decoration: none;
+              border-radius: 5px;
+              position: relative;
+              z-index: 2;
+            "
+            >Learn about DFA</a
+          >
+        </div>
+      </div>
+
+      <!-- Interactive Controls -->
+      <div class="controls-panel">
+        <button id="play-btn" class="control-btn play">▶ Play</button>
+        <button id="pause-btn" class="control-btn pause">⏸ Pause</button>
+        <button id="reset-btn" class="control-btn reset">↺ Reset</button>
+        <div class="speed-control">
+          <label for="speed-slider">Speed:</label>
+          <input
+            type="range"
+            id="speed-slider"
+            min="0.5"
+            max="3"
+            step="0.5"
+            value="1"
+          />
+          <span id="speed-value">1x</span>
+        </div>
+      </div>
+
+      <!-- Configuration Panel -->
+      <div class="config-panel">
+        <h3>Configuration Settings</h3>
+        <div class="config-grid">
+          <div class="config-item">
+            <label for="ns-green-time">NS Green (sec):</label>
+            <input
+              type="number"
+              id="ns-green-time"
+              min="1"
+              max="30"
+              value="5"
+            />
+          </div>
+          <div class="config-item">
+            <label for="ns-yellow-time">NS Yellow (sec):</label>
+            <input
+              type="number"
+              id="ns-yellow-time"
+              min="1"
+              max="10"
+              value="2"
+            />
+          </div>
+          <div class="config-item">
+            <label for="ew-green-time">EW Green (sec):</label>
+            <input
+              type="number"
+              id="ew-green-time"
+              min="1"
+              max="30"
+              value="5"
+            />
+          </div>
+          <div class="config-item">
+            <label for="ew-yellow-time">EW Yellow (sec):</label>
+            <input
+              type="number"
+              id="ew-yellow-time"
+              min="1"
+              max="10"
+              value="2"
+            />
+          </div>
+          <div class="config-item">
+            <label for="pedestrian-time">Pedestrian (sec):</label>
+            <input
+              type="number"
+              id="pedestrian-time"
+              min="1"
+              max="20"
+              value="3"
+            />
+          </div>
+          <div class="config-item">
+            <label for="max-cycles">Max Cycles:</label>
+            <input type="number" id="max-cycles" min="1" max="20" value="5" />
+          </div>
+        </div>
+        <button id="apply-config" class="apply-btn">Apply Settings</button>
+      </div>
+
+      <div class="main-content">
+        <!-- Traffic Light Simulation -->
+        <div class="simulation-container">
+          <div class="light-group">
+            <h2>NORTH-SOUTH</h2>
+            <div class="traffic-light-box">
+              <div class="light red" id="ns-red"></div>
+              <div class="light yellow" id="ns-yellow"></div>
+              <div class="light green" id="ns-green"></div>
+            </div>
+            <div class="status-text" id="ns-status"></div>
+          </div>
+
+          <div class="light-group">
+            <h2>EAST-WEST</h2>
+            <div class="traffic-light-box">
+              <div class="light red" id="ew-red"></div>
+              <div class="light yellow" id="ew-yellow"></div>
+              <div class="light green" id="ew-green"></div>
+            </div>
+            <div class="status-text" id="ew-status"></div>
+          </div>
+        </div>
+
+        <!-- DFA Visualization -->
+        <div class="dfa-visualization">
+          <h3>Live DFA State Diagram</h3>
+          <canvas id="dfa-canvas" width="400" height="300"></canvas>
+          <div class="current-tuple">
+            <h4>Current State Tuple</h4>
+            <div id="tuple-display">
+              Current State: q0 (NS_GREEN_EW_RED) | Input: Timer_Expired | Next
+              State: q1 (NS_YELLOW_EW_RED)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Traffic Density Control -->
+      <div class="density-control">
+        <h3>Traffic Density</h3>
+        <div class="slider-container">
+          <span>Low</span>
+          <label for="traffic-density" class="sr-only"
+            >Traffic Density Level</label
+          >
+          <input
+            type="range"
+            id="traffic-density"
+            min="1"
+            max="3"
+            value="2"
+            aria-label="Traffic Density Level"
+          />
+          <span>High</span>
+        </div>
+        <div class="density-value" id="density-value">Medium</div>
+      </div>
+
+      <!-- Statistics Panel -->
+      <div class="statistics-panel">
+        <h3>Simulation Statistics</h3>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-label">Total Cycles</div>
+            <div class="stat-value" id="total-cycles">0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Current State</div>
+            <div class="stat-value" id="current-state">NS_GREEN_EW_RED</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">State Duration</div>
+            <div class="stat-value" id="state-duration">0s</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Pedestrian Requests</div>
+            <div class="stat-value" id="ped-requests">0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Cars Passed</div>
+            <div class="stat-value" id="cars-passed">0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Throughput</div>
+            <div class="stat-value" id="throughput">0</div>
+          </div>
+        </div>
+        <div class="state-history">
+          <h4>State Transition History</h4>
+          <div id="state-history-list"></div>
+        </div>
+      </div>
+
+      <!-- Emergency Vehicle Controls -->
+      <div class="emergency-controls">
+        <h3>Emergency Vehicle Priority</h3>
+        <button id="emergency-btn" class="emergency-request">
+          Activate Emergency Mode
+        </button>
+        <div class="emergency-status" id="emergency-status">Standby</div>
+      </div>
+
+      <!-- Pedestrian Controls -->
+      <div class="pedestrian-controls">
+        <h3>Pedestrian Crossing</h3>
+        <button id="pedestrian-btn" class="pedestrian-request">
+          Request Crossing
+        </button>
+        <div class="pedestrian-timer">
+          <span>Time until crossing: </span>
+          <span id="pedestrian-countdown">--</span>
+        </div>
+      </div>
+
+      <div class="info-panel">
+        <h3>Cycle: <span id="cycle-count">1</span> / 5</h3>
+        <h3>Time in State: <span id="timer">0</span>s</h3>
+        <div class="pedestrian-box" id="ped-box">PEDESTRIAN CROSSING</div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
