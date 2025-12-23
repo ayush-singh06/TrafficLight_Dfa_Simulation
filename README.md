@@ -109,7 +109,7 @@ A high-fidelity, interactive traffic control dashboard implementing a **Determin
 2. Navigate to the project directory:
 
    ```bash
-   cd TrafficSimulationUsingDfa
+   cd TrafficLight_Dfa_Simulation
    ```
 
 3. Open `control-center.html` in a modern web browser
