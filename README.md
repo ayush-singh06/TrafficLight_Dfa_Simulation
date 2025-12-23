@@ -103,7 +103,7 @@ A high-fidelity, interactive traffic control dashboard implementing a **Determin
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/ABHAYRAJYADAV19/TrafficSimulationUsingDfa.git
+   git clone https://github.com/ayush-singh06/TrafficLight_Dfa_Simulation.git
    ```
 
 2. Navigate to the project directory:
@@ -159,16 +159,12 @@ Optimized for modern browsers supporting:
 
 Tested on Chrome, Firefox, Safari, and Edge.
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 👤 Author
 
-**Abhay Raj Yadav**
+**Ayush Singh**
 
-- GitHub: [@ABHAYRAJYADAV19](https://github.com/ABHAYRAJYADAV19)
-- Email: abhayraju5@gmail.com
+- GitHub: [@ayush-singh06](https://github.com/ayush-singh06)
+- Email: ayushhsingh06@gmail.com
 
 ## 🤝 Contributing
 
